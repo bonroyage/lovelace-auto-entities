@@ -137,6 +137,18 @@ class AutoEntities extends LitElement {
     const newType = this._cardConfig?.type !== this._config.card.type;
     this._entities = entities;
     this._cardConfig = JSON.parse(JSON.stringify(this._config.card));
+
+    entities = entities.map((entity) => {
+      if(entity.name && hasTemplate(entity.name)) {
+        bind_template((tpl) => {
+          entity.name = tpl
+        }, entity.name, {
+          entity: entity.entity
+        });
+      }
+      return entity;
+    })
+
     const cardConfig = {
       [this._config.card_param || "entities"]: entities,
       ...this._config.card,
